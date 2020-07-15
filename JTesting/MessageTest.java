@@ -22,7 +22,11 @@ class MessageTest {
 		//test to see if users are reciving messages
 	}
 	
-	
+	@Test
+	void testSaveMessage()
+	{
+		//test to see if the messages are saved so the users can chat again 
+	}
 }
 
 
