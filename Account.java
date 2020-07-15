@@ -1,10 +1,10 @@
-
 import.
 public class Account 
 {
 	//variables 
 	private String name, userName, password, email, securityAnswer; 
 	//private String id; 
+<<<<<<< HEAD
 	
 	//methods
 	
@@ -87,9 +87,45 @@ public class Account
 			
 		}
 		
+=======
+
+	//methods
+	
+	public void setName(String n)
+	{
+		name = n; 
+	}
+	public String getName() 
+	{
+		return name;
+>>>>>>> b50734354b33ef12468274fd4c7f9783cbce13e4
 	}
 	
+	public void setUserName(String un)
+	{
+		userName = un; 
+	}
+	public String getUserName() 
+	{
+		return userName;
+	}	
+
+	public void setPassword(String p)
+	{
+		password = p; 
+	}
+	//public String getPassword() {return password;}
+
+	public void setEmail(String e)
+	{
+		email = e; 
+	}
+	public String getEmail() 
+	{
+		return email;
+	}
 	
+<<<<<<< HEAD
 	public boolean resetPassword(String newPass)
 	{
 		System.out.println("Reset password");
@@ -108,3 +144,6 @@ public class Account
 
 
 
+=======
+}
+>>>>>>> b50734354b33ef12468274fd4c7f9783cbce13e4
