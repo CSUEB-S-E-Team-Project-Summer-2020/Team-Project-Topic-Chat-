@@ -6,7 +6,7 @@ class AccountTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 	
 	@Test
@@ -33,7 +33,13 @@ class AccountTest {
 	{
 		//The reset password function will send an email to the user if they need 
 		//to reset their passsword.
-		//This will test if 
+		//This will test if the new password meets the requirements or not
+	}
+	
+	@Test
+	void testVerifyEmail()
+	{
+		//This test will make sure the user verifies the email address. 
 	}
 
 }
