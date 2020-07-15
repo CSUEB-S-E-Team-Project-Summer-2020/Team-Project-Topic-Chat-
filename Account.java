@@ -4,7 +4,6 @@ public class Account
 	//variables 
 	private String name, userName, password, email, securityAnswer; 
 	//private String id; 
-<<<<<<< HEAD
 	
 	//methods
 	
@@ -12,14 +11,20 @@ public class Account
 	{
 		name = n; 
 	}
-	public String getName() {return name;}
+	public String getName() 
+	{
+		return name;
+	}
 	
 	
 	public void setUserName(String un)
 	{
 		userName = un; 
 	}
-	public String getName() {return userName;}
+	public String getName() 
+	{
+		return userName;
+	}
 	
 	
 	public void setPassword(String p)
@@ -33,7 +38,10 @@ public class Account
 	{
 		email = e; 
 	}
-	public String getEmail() {return email;}
+	public String getEmail() 
+	{
+		return email;
+	}
 	
 	
 	public boolean verfiyEmail(String e)
@@ -86,8 +94,6 @@ public class Account
 			 */
 			
 		}
-		
-=======
 
 	//methods
 	
@@ -98,7 +104,6 @@ public class Account
 	public String getName() 
 	{
 		return name;
->>>>>>> b50734354b33ef12468274fd4c7f9783cbce13e4
 	}
 	
 	public void setUserName(String un)
@@ -125,7 +130,6 @@ public class Account
 		return email;
 	}
 	
-<<<<<<< HEAD
 	public boolean resetPassword(String newPass)
 	{
 		System.out.println("Reset password");
@@ -139,11 +143,3 @@ public class Account
 }
 
 
-
-
-
-
-
-=======
-}
->>>>>>> b50734354b33ef12468274fd4c7f9783cbce13e4
