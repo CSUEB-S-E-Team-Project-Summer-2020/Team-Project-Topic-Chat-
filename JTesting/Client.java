@@ -1,3 +1,4 @@
+package JTesting;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,24 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
-public class ClientSide {
-
+public class Client {
+public static void main (String[] args) throws IOException{
+		
+	Scanner sc= new Scanner(System.in);
 	
-	public static void main (String[] args) throws IOException{
-		
-		Scanner sc= new Scanner(System.in);
-		int port=7777;
-		String host="";
-		
-		Socket socket= new Socket(host,port);
-		
-		 OutputStream outputStream = socket.getOutputStream();
+	int port=1111;
+	String host="127.0.0.1";
+	
+	Socket socket= new Socket(host,port);
+	
+	 OutputStream outputStream = socket.getOutputStream();
 
-	        // Create object output stream from the output stream to send an object through it
-	        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-	        ObjectInputStream objectInputStream= new ObjectInputStream(socket.getInputStream());
+        // Create object output stream from the output stream to send an object through it
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+		//User newperson=new User();
+		//newperson.getLogin();
+
+
+		
+		//
+		
+	       // ObjectInputStream objectInputStream= new ObjectInputStream(socket.getInputStream());
 	        
 	        
 	        // List of Message objects
