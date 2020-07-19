@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Client {
+	
+	private List<UserChecking> userCheck=new ArrayList<>();
+	private List<Message> messages = new ArrayList<>();//message arry
+	
 public static void main (String[] args) throws IOException{
 		
 	Scanner sc= new Scanner(System.in);
@@ -32,7 +36,7 @@ public static void main (String[] args) throws IOException{
 	        
 	        
 	        // List of Message objects
-	        List<Message> messages = new ArrayList<>();
+	       
 	        messages.add(new Message("login"));
 	        while(true) {
 	        System.out.print("Enter message info. <enter> to quit\n");

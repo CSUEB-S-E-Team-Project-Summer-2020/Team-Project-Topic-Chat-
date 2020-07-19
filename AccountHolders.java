@@ -1,4 +1,4 @@
-package ChatSysetm;
+
 
 import java.util.ArrayList;
 
@@ -37,17 +37,27 @@ public class AccountHolders {
 		accountList.add(accountObject);
 		return true;//will notify that user added in the account list
 	}	
+	
 	public void changeStatus(String status)
 	{
-		accountObject.setStatus(status);
-		
+		if(status.equals("online")) {
+			accountObject.setStatusOnline();
+		}
+		else if(status.equals("blocked")) {
+			accountObject.setStatusBlocked();
+		}
+		else
+		{
+			accountObject.setStatusOffline();
+		}
+	
 	}
 
 
 	public boolean resetPassword(String newPass)
 	{
 		
-		
+		accountObject.setPassword(newPass);
 		
 		return true;
 		

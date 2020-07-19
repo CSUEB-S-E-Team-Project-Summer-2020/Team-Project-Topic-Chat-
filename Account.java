@@ -1,11 +1,11 @@
-package ChatSysetm;
+
 
 
 public class Account 
 {
 	//variables 
 	private String userName, password, securityAnswer; 
-	private Status s;
+	private Status status;
 	//private String id; 
 	
 	//methods
@@ -43,6 +43,20 @@ public class Account
 		
 		return securityAnswer;
 	}
+	
+	public void setStatusOnline() {
+		
+		this.status=Status.online;
+	}
+	public void setStatusOffline() {
+		
+		this.status=Status.offline;
+	}
+	public void setStatusBlocked() {
+		
+		this.status=Status.blocked;
+	}
+	
 
 }
 
