@@ -1,113 +1,51 @@
-import.
+package ChatSysetm;
+
+
 public class Account 
 {
 	//variables 
-	private String name, userName, password, email, securityAnswer; 
+	private String userName, password, securityAnswer; 
+	private Status s;
 	//private String id; 
 	
 	//methods
-	
-	public void setName(String n)
-	{
-		name = n; 
-	}
-	public String getName() 
-	{
-		return name;
-	}
-	
-	
+
 	public void setUserName(String un)
 	{
-		userName = un; 
+		this.userName = un; 
 	}
-	public String getName() 
+	
+	public String getUserName() 
 	{
 		return userName;
 	}
 	
-	
-	public void setPassword(String p)
+	public void setPassword(String pw)
 	{
-		password = p; 
+		this.password = pw; 
+		
 	}
-	//public String getPassword() {return password;}
+	
+	public String getPassword() {
+		
+		return password;
+	}
 
-	
-	public void setEmail(String e)
+	public boolean setSecurityAnswer(String answer)
 	{
-		email = e; 
-	}
-	public String getEmail() 
-	{
-		return email;
-	}
-	
-	
-	public boolean verfiyEmail(String e)
-	{
-	    if (email == e)
-	//	if(getEmail() == e)
-		{
-			return true;
-		}
-		else 
-		{
-			System.out.println("Invalid email!");
-		}
+		this.securityAnswer=answer;
+		return true;
 		
 	}
 	
-	
-	public boolean checkUserName(String checkUName)
+	public String getSecurityAnswer()
 	{
-		if(userName == checkUName)
-		{
-			return true; 
-		}
 		
-		else 
-		{
-			System.out.println("Invalid username"); 
-		}
-		
+		return securityAnswer;
 	}
-	
-	
 
-	public boolean checkPassword(String checkPass)
-	{
-		if(password == checkPass)
-		{
-			return true; 
-		}
-		
-		else 
-		{
-			System.out.println("Invalid password"); 
-			//ask in menu user if they want to reset their password and then call the reset method 
-			/* ask if want to set 
-			 resetPassword() 
-			 
-		     else
-			 give them another 3 chances to enter it in then block their acc send an email 
-			 */
-			
-		}
-
-	
-	public boolean resetPassword(String newPass)
-	{
-		System.out.println("Reset password");
-		
-		//delete the old password in the server and replace it with the new one 
-		setPassword(String newPass); 
-			
-		
-	}
-	
-	
 }
+
 	
 	
 	
