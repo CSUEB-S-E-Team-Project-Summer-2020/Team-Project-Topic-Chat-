@@ -43,25 +43,73 @@ public static void main (String[] args) throws IOException{
 	Scanner sc= new Scanner(System.in);
 	
 	String username;
+
 	String password;
 	String check="";
+	String question="";
+	String secondCheck="";
+	boolean moveToMessage=false;
+	
+	
+	
+	
 while(true) {
 		
-		System.out.println("Please login ");
+		System.out.println("Please login: ");
 		username=sc.nextLine();
-		client.output.write(username.getBytes());
-		System.out.println("password ");
+		System.out.println("password: ");
 		password=sc.nextLine();
-		client.output.write(password.getBytes());
+		client.output.write(("login"+username+password).getBytes());
+	
 		check=client.bufferIn.readLine();
-		if(check.equals("ok")) {
+		if(check.equals("NoAccount")) {
+			//System.clearProperty(null);
+			System.out.println("Please Enter new UserName: ");
+			username=sc.nextLine();
+			
+			System.out.println("Enter password ");
+			password=sc.nextLine();
+
+			System.out.println("Enter security question Answer: ");
+			question=sc.nextLine();
+			client.output.write(("signup"+username+password+question).getBytes());
+		
+		}
+		else if(check.equals("IncorrectPassword"))
+		{
+			
+			
+				do
+				{
+					System.out.println("Enter password ");
+					password=sc.nextLine();
+					client.output.write(("login"+username+password).getBytes());
+					secondCheck=client.bufferIn.readLine();
+				}while(secondCheck.equals("IncorrectPassword"));
+				
+				
+				
+			
+				
+			}
+		else
+		{
+			
 			break;
+			
+		}
+			
+		
+			
+			
+			
+			
 		}
 		
 		
 		
 		
-	}
+	
 
 	
 }
@@ -88,4 +136,5 @@ private static void promptLogin() {
 
 	
 }
+
 }
