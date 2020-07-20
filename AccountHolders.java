@@ -74,20 +74,21 @@ public class AccountHolders {
 	}
 	
 	boolean getStatusofPerson(String username)
-	{
+{
 		if(accountList.size()!=0)
+	{
+		for (Account client:accountList)
 		{
-		for (Account client:accountList) {
 			if((client.getUserName()).equals(username))
 			{
 				if(client.getStatus().equals("online"))
 					return true ;
 			}
 		}
-		}
+	}
 		return false;
 		
-	}
+}
 	
 
 }
