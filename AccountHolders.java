@@ -1,18 +1,28 @@
-
+package ChatSysetm;
 
 import java.util.ArrayList;
 
 
 public class AccountHolders {
-	private ArrayList<Account> accountList=new ArrayList<>();
+	private ArrayList<Account> accountList;
 	private Account accountObject;
+	public AccountHolders()
+	{
+		accountList=new ArrayList<Account>() ;
+		
+	}
+	
 	public boolean verifyUsername(String username)
 	{
+		//System.out.println("i am here chechking out");
+		if(accountList.size()!=0)
+		{
 		for (Account client:accountList) {
 			if((client.getUserName()).equals(username))
 			{
 				return true ;
 			}
+		}
 		}
 		return false;
 		
@@ -37,7 +47,7 @@ public class AccountHolders {
 		accountList.add(accountObject);
 		return true;//will notify that user added in the account list
 	}	
-	
+
 	public void changeStatus(String status)
 	{
 		if(status.equals("online")) {
@@ -63,12 +73,23 @@ public class AccountHolders {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
+	boolean getStatusofPerson(String username)
+	{
+		if(accountList.size()!=0)
+		{
+		for (Account client:accountList) {
+			if((client.getUserName()).equals(username))
+			{
+				if(client.getStatus().equals("online"))
+					return true ;
+			}
+		}
+		}
+		return false;
+		
+		
+	}
+
 
 }
 
