@@ -1,5 +1,6 @@
-
+package ChatSysetm;
 import org.apache.commons.lang3.StringUtils;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,18 +9,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-
-
-import ChatSysetm.ServerSide.SeverAcceptConnections;
-
 public class ServerSideClientMenu extends Thread{
-	private Socket clientSocket;// Final is not there yet
-	private SeverAcceptConnections server;//final is not there yet
-	private String loginString=null;
+	private final Socket clientSocket;// Final is not there yet
+	private final SeverAcceptConnections server;//final is not there yet
+
+	AccountHolders accountHolders=new AccountHolders();
+	private String loginUsername;
 	private String usernameString;
 	private String passwordString;
-	private String logoutString=null;
-	private String chatString=null;
+
 	private OutputStream outputStream;
 	private InputStream inputStream;
 	
@@ -33,26 +31,33 @@ public class ServerSideClientMenu extends Thread{
 	@Override
 	public void run()
 	{
-		try {
-			inputStream = clientSocket.getInputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        try {
-			this.outputStream = clientSocket.getOutputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+			try {
+				inputStream = clientSocket.getInputStream();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+			try {
+				this.outputStream = clientSocket.getOutputStream();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
         BufferedReader cin = new BufferedReader(new InputStreamReader(inputStream));
-		String inputString=null;
+        
+		String inputString;
 	
 		try {
 			while((inputString=cin.readLine())!=null)
 			{
 				
 				String[] inputStringArray=StringUtils.split(inputString);
-				
+				System.out.println("here");
 				String option=inputStringArray[0];
+				System.out.println(option);
 			
 				switch(option){
 					case "login":
@@ -73,23 +78,54 @@ public class ServerSideClientMenu extends Thread{
 						
 					}
 					break;
-					
+					case "msg":
+					{
+						String[] messageLiSt=StringUtils.split(inputString,null,3);
+						doMessage(messageLiSt);
+						
+					}
+					break;
 				}
 		
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			clientSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void doMessage(String[] messageLiSt) throws IOException {
+		String sendMessageToString=messageLiSt[1];
+		String messageBody=messageLiSt[2];
+		boolean ifOnline;
+		ifOnline=accountHolders.getStatusofPerson(sendMessageToString);
+		if(ifOnline==true)
+		{
+			String sentString="msg "+sendMessageToString+" : "+loginUsername+" "+messageBody+"\n"; 
+			outputStream.write(sentString.getBytes());
+			
+		}
+		else {
+			String sentString="msg "+loginUsername+" "+messageBody+"\n"; 
+			outputStream.write(sentString.getBytes());
+
+			
+		}
+		
 	}
 	@SuppressWarnings("null")
-	private void doSignup(OutputStream outputStream1, String usernameString2, String passwordString2,String sc) throws IOException {
+	private void doSignup(OutputStream outputStream, String usernameString2, String passwordString2,String sc) throws IOException {
 		
 		AccountHolders tempObject = null;
 		boolean verifyUsername;
 		verifyUsername=tempObject.verifyUsername(usernameString2);
 		if(verifyUsername==true)
 		{
-			 outputStream1.write(("AlreadyAccount").getBytes());
+			 outputStream.write(("AlreadyAccount").getBytes());
 		}
 		else {
 			tempObject.addUsers(usernameString2,passwordString2,sc);
@@ -98,26 +134,32 @@ public class ServerSideClientMenu extends Thread{
 		
 		
 	}
-	@SuppressWarnings("null")
-	private void doLogin(OutputStream outputStream1, String usernameString2, String passwordString2) throws IOException {
-		AccountHolders tempObject = null;
+	private void doLogin(OutputStream outputStream, String usernameString2, String passwordString2) throws IOException {
+		
+		
+		//System.out.println("I am here ");
+
 		boolean verifyUsername;
 		boolean verifyPassword;
-		verifyUsername=tempObject.verifyUsername(usernameString2);
+		verifyUsername=accountHolders.verifyUsername(usernameString2);
+		//verifyUsername=false;
 		if(verifyUsername==false)
 		{
-			 outputStream1.write(("NoAccount").getBytes());
+			System.out.println("I am here ");
+			 outputStream.write(("NoAccount\n").getBytes());
 			
 		}
-		verifyPassword=tempObject.verifyPassword(passwordString2);
+		verifyPassword=accountHolders.verifyPassword(passwordString2);
 		if(verifyPassword==false && verifyUsername==true)
 		{
-			outputStream1.write(("IncorectPassword").getBytes());
+			outputStream.write(("IncorrectPassword\n").getBytes());
 			
 		}
 		else {
-			outputStream1.write(("Successful").getBytes());
-			tempObject.changeStatus("online");
+			outputStream.write(("Successful\n").getBytes());
+			this.loginUsername=usernameString2;
+			accountHolders.changeStatus("online");
+			
 			
 		}
 		
