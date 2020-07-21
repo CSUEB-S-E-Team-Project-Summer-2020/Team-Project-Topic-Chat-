@@ -50,7 +50,8 @@ public class AccountHolders {
 
 	public void changeStatus(String status)
 	{
-		if(status.equals("online")) {
+		if(status.equals("online")) 
+		{
 			accountObject.setStatusOnline();
 		}
 		else if(status.equals("blocked")) {
