@@ -136,21 +136,10 @@ public class Logged_In extends JDialog {
 				
 			}
 		}
-		
-		
-		
-		
+
+			
 		
 	}
 
-
-
-	
-	
-	
-	
-	
-	
-	
 
 }
