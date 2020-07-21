@@ -69,8 +69,55 @@ public class Logged_In extends JDialog {
 		p.add(usernameText,ccsss);
 		
 		
-		PsPass= new JLabel("Password: ");
-		ccsss.
+		PsPass= new JLabel("password: ");
+		ccsss.gridx = 0;
+		ccsss.gridy = 1;
+		ccsss.gridwidth = 1;
+		p.add(PsPass, ccsss);
+
+		passText = new JTextField(30);
+		ccsss.gridx = 1;
+		ccsss.gridy = 1;
+		ccsss.gridwidth = 2;
+		p.add(passText, ccsss);
+		p.setBorder(new LineBorder(Color.GRAY));
+
+		ansText = new JLabel("answer: ");
+		ccsss.gridx = 0;
+		ccsss.gridy = 2;
+		ccsss.gridwidth = 2;
+		p.add(ansText, ccsss);
+
+		answerText = new JTextField(30);
+		ccsss.gridx = 2;
+		ccsss.gridy = 2;
+		ccsss.gridwidth = 3;
+		p.add(answerText, ccsss);
+
+		Login = new JButton("login");
+		Login.addActionListener(new ActionListener() {		
+
+		public void actionPerformed(ActionEvent e)
+		{
+			if(Login.authenicate(getUsName(), getPsPass()))
+			{
+				JOptionPane.showMessageDialog(Logged_In.this, "Hi" + getUsName() + 
+						"! Welcome", + "Login", JOptionPane.INFORMATION_MESSAGE);
+				succeeded = true;
+				dispose();
+			} 
+			else
+			{
+				JOptionPane.showMessageDialog(Logged_In.this, "invalid username or password", 
+						"Login", JOptionPane.ERROR_MESSAGE);
+				usernameText.setText("");
+				passText.setText("");
+				succeeded = false;
+			}
+		}
+
+	});
+		
 		
 	}
 
