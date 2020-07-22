@@ -1,13 +1,18 @@
 
 
 
-
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.TypeUtilsTest.This;
@@ -46,8 +51,34 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
     clinet.serverconnect();
         Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
         //socket=new Socket(host,port);
+        final  JFrame JFrame =  new JFrame("test");     
+  final JButton btnLogin= new JButton("login");
+  final JButton signup=new JButton("signup");
+  String checking = null;
+  btnLogin.addActionListener(
+		  new ActionListener(){
+			  public void actionPerformed(ActionEvent e) {
+				  Logged_In loginD=new Logged_In(JFrame,checking);
+				  Logged_In signupD=new Logged_In(JFrame,checking);
+				  loginD.setVisible(true);
+			  }
+		  
+		
+		  
+		  });
   
-   
+  JFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  JFrame.setSize(300, 100);
+  JFrame.setLayout(new FlowLayout());
+  JFrame.getContentPane().add(signup);
+  JFrame.setVisible(true);
+  
+  
+  JFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  JFrame.setSize(300, 100);
+  JFrame.setLayout(new FlowLayout());
+  JFrame.getContentPane().add(btnLogin);
+  JFrame.setVisible(true);
        
         boolean loginStatus;
         System.out.println("1: log in"+"/n"+"2: Create Account");
@@ -143,6 +174,7 @@ private void doLogin() throws IOException {
 
 
 private void doCreateAccount() throws IOException {
+	
 String sending;
 String newUser;
 String newPass;
