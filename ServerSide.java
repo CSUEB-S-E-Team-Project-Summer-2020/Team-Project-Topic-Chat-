@@ -10,28 +10,10 @@ import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
 
-
-
-/**
- * A multithreaded chat room server. When a client connects the server requests
- * a screen name by sending the client the text "SUBMITNAME", and keeps
- * requesting a name until a unique one is received. After a client submits a
- * unique name, the server acknowledges with "NAMEACCEPTED". Then all messages
- * from that client will be broadcast to all other clients that have submitted a
- * unique screen name. The broadcast messages are prefixed with "MESSAGE".
- *
- * This is just a teaching example so it can be enhanced in many ways, e.g.,
- * better logging. Another is to accept a lot of fun commands, like Slack.
- */
 public class ServerSide {
 
-    // All client names, so we can check for duplicates upon registration.
     private static ArrayList<Account> accountHolders = new ArrayList<Account>();
-    private static Account accountObj=new Account();
-    
-    // The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
-
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running...");
         var pool = Executors.newFixedThreadPool(500);
@@ -42,79 +24,117 @@ public class ServerSide {
         }
     }
 
-    /**
-     * The client handler task.
-     */
+
     private static class Handler implements Runnable {
         private String username;
         private String password;
+        private String sAnswer;
+        private String userloginStatus;
         private String inputString;
         private Socket socket;
         private Scanner in;
+        
+       // private boolean isNeedAccount=false;
         private PrintWriter out;
-
-        /**
-         * Constructs a handler thread, squirreling away the socket. All the interesting
-         * work is done in the run method. Remember the constructor is called from the
-         * server's main method, so this has to be as short as possible.
-         */
+        
+    
         public Handler(Socket socket) {
             this.socket = socket;
         }
 
-        /**
-         * Services this thread's client by repeatedly requesting a screen name until a
-         * unique one has been submitted, then acknowledges the name and registers the
-         * output stream for the client in a global set, then repeatedly gets inputs and
-         * broadcasts them.
-         */
         public void run() {
             try {
-                in = new Scanner(socket.getInputStream());
-                out = new PrintWriter(socket.getOutputStream(), true);
-                accountObj.setUserName("me");
-                accountObj.setPassword("me");
-                accountHolders.add(accountObj);
-                Account tempaccountObj=new Account("you","you");
+                this.in = new Scanner(socket.getInputStream());
                 
+                this.out = new PrintWriter(socket.getOutputStream(), true);
+                out.println("SUBMITTED");
                
+              /* Account accountObjAccount=new Account();
+               accountObjAccount.setUserName("me");
+               accountObjAccount.setPassword("me");
+              
+               
+               accountHolders.add(accountObjAccount);
+                Account tempaccountObj=new Account("you","you");
+            	
+                
+             //  int count=0;
                 accountHolders.add(tempaccountObj);
                 
+                */
                 // Keep requesting a name until we get a unique one.
                 while (true) {
-                	  out.println("SUBMITNAME");
+                	
+                	
+                	 
                     inputString = in.nextLine();
                     if (inputString == null) {
                         return;
                     }
                     System.out.println(inputString);
-                   // System.out.println(password);
-                 
-                    String[] tokens=StringUtils.split(inputString);
-                    this.username=tokens[0];
-                    this.password=tokens[1];
-                   // System.out.println(password);
+                   
+                    //this.userloginStatus=tokens[0];
+                   
+                    if(inputString.startsWith("login"))
+                    {
+                    	 String[] tokens=StringUtils.split(inputString);
+                    	 this.username=tokens[1];
+                         this.password=tokens[2];
+                         boolean verifyUsername=verifyUsername(username);
+                         boolean verifyPassword=verifyPassword(password);
+                         if(verifyUsername==false)
+                         {
+                        	 out.println("NEWACCOUNT");
+                        	 
+                         }
+                         if(verifyUsername==true)
+                         {
+                        	 if(verifyPassword==false)
+                        	 {
+                        		 out.println("WRONGPASSWORD");
+                        	 }
+                        	 
+                         }
+                        
+                    	if(verifyPassword==true && verifyUsername==true) {
+                    		
+                    		doLogin(username, password);
+                    		break;
+						}
                     
-                    boolean found=varifyLogin(username, password);
-                   if(found==true)
-                   {
-                
-                	 System.out.println("found");
-                	 break;  
-                   }
-                   else {
-					out.println("Need a new Account");
-				}
-                 
-                       
-                 }
+                    }
+                   if(inputString.startsWith("newA"))
+                    {
+                	   boolean verifiyer;
+                	   String[] tokens=StringUtils.split(inputString);
+                    	this.username=tokens[1];
+                        this.password=tokens[2];
+                    	this.sAnswer=tokens[3];
+                    	System.out.println("I am new accout");
+                    	verifiyer=createAccount(username, password, sAnswer);
+                    	if(verifiyer==true)
+                    	{
+                    		verifiyer=doLogin(username, password);
+                    		System.out.println("ia nmbreaking");
+                    		if(verifiyer==true)
+                    		{
+                    			//out.println("NAMEACCEPTED " + username);
+                    			break;
+                    			
+                    		}
+                    		
+                    	}	
+                    }
+                }	
+                      System.out.println("I am out");
+                     
            
                 // Now that a successful name has been chosen, add the socket's print writer
                 // to the set of all writers so this client can receive broadcast messages.
                 // But BEFORE THAT, let everyone else know that the new person has joined!
                 out.println("NAMEACCEPTED " + username);
                 for (PrintWriter writer : writers) {
-       
+                	
                     writer.println("MESSAGE " + username + " has joined");
                 }
                 writers.add(out);
@@ -125,6 +145,25 @@ public class ServerSide {
                     if (input.toLowerCase().startsWith("/quit")) {
                         return;
                     }
+                    if(input.startsWith("msg"))
+                    {
+                    	String[] tokens=StringUtils.split(input,null,2);
+                      	String 	fusername=tokens[1];
+                    	 for (Account client : accountHolders) {
+                    		 if(client.getUserName().equals(fusername))
+                    		 {
+                    			 client.getWriter().println("MESSAGE " + username + ": " + input);
+                    			 break;
+                    		 } 
+                         }
+                    }
+                    if(input.startsWith("add"))
+					{
+                    	boolean varifyer=false;
+                    	 String[] tokens=StringUtils.split(input,null,2);
+                     	String 	fusername=tokens[1];
+                     	varifyer=addFrindtoaccount(fusername);
+					}
                     for (PrintWriter writer : writers) {
                         writer.println("MESSAGE " + username + ": " + input);
                     }
@@ -150,20 +189,73 @@ public class ServerSide {
             }
         }
 
-		private boolean varifyLogin(String username, String password) {
-			 for (Account client:accountHolders) {
-				// System.out.println("i am ghere ");
-				 System.out.println(client.getPassword() +"and "+ client.getUserName());
-				 System.out.println();
-	       			if((client.getPassword()).equals(password) && client.getUserName().equals(username))
+		private boolean addFrindtoaccount(String fusername) {
+			
+			for (Account client:accountHolders) {
+				
+	       			if( client.getUserName().equals(username))
 	       			{
-	       				
-	       				System.out.println("i am ghere inside if");
+	       				client.addFriend(fusername);
+	       				System.out.println(client.getStatus());
 	       				return true;
 	       				
 	       			}
 	       		}
 	       		return false;
 		}
+
+		private boolean createAccount(String username, String password, String sAnswer) {
+			System.out.println("I am ghwere asdbasjkdbnasjksdn");
+			Account newAccount=new Account();
+			newAccount.setUserName(username);
+			newAccount.setPassword(password);
+			newAccount.setSecurityAnswer(sAnswer);
+			newAccount.setWriter(out);
+			newAccount.setStatusOnline();
+			accountHolders.add(newAccount);
+			return true;
+			
+		}
+		//THIS METHOD WILL VERIFY THE USERNAME		
+		private boolean verifyUsername(String username) {
+			 for (Account client:accountHolders) {
+	       			if(client.getUserName().equals(username))
+	       			{
+	       				
+	       				return true;
+	       				
+	       			}
+	       		}
+	       		return false;
+		}
+    
+    
+    	//THIS METHOD WILL VERIFY THE PASSWORD
+    	private boolean verifyPassword(String password) {
+		 for (Account client:accountHolders) {
+			
+      			if((client.getPassword()).equals(password))
+      			{
+      				return true;
+      			}
+      		}
+      		return false;
+	}
+    //THIS METHOD WILL DO LOGIN
+    private boolean doLogin(String username, String password) {
+		 for (Account client:accountHolders) {
+			// System.out.println("i am ghere ");
+			 System.out.println(client.getPassword() +"and "+ client.getUserName());
+			// System.out.println();
+      			if((client.getPassword()).equals(password) && client.getUserName().equals(username))
+      			{
+      				client.setStatusOnline();
+      				System.out.println(client.getStatus());
+      				return true;
+      				
+      			}
+      		}
+      		return false;
+	}
     }
 }
