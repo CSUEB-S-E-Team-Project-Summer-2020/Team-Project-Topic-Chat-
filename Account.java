@@ -1,47 +1,42 @@
-package ChatSysetm;
-
+import java.io.PrintWriter;
 
 public class Account
 {
-//variables
+
 private String userName, password, securityAnswer;
 private String status;
-//private String id;
+private String[] friendList;
+private int friendCount;
+private PrintWriter writer;
 
-//methods
-
-
-
-public void setUserName(String un)
+public Account()
 {
-this.userName = un;
+this.userName="";
+this.password="";
+friendList=new String[50];
+this.securityAnswer="";
+this.status="";
+friendCount=0;
+this.writer=null;
 }
-public String getUserName()
+public Account(String username, String password)
 {
-return userName;
+setUserName(username);
+setPassword(password);
 }
-public void setPassword(String pw)
+public void setUserName(String username)
 {
-this.password = pw;
-
-}
-public String getPassword() {
-
-return password;
+this.userName = username;
 }
 
-
-
-public boolean setSecurityAnswer(String answer)
+public void setPassword(String password)
+{
+this.password = password;
+}
+public void setSecurityAnswer(String answer)
 {
 this.securityAnswer=answer;
-return true;
 
-}
-public String getSecurityAnswer()
-{
-
-return securityAnswer;
 }
 public void setStatusOnline() {
 
@@ -55,13 +50,42 @@ public void setStatusBlocked() {
 
 this.status="blocked";
 }
+
+public String getUserName()
+{
+return userName;
+}
+public String getPassword() {
+return password;
+}
+public String getSecurityAnswer()
+{
+return securityAnswer;
+}
 public String getStatus()
 {
-
 return status;
+}
+//public addFriend(String )
+public void setWriter(PrintWriter out)
+{
+this.writer=out;
 
 }
+public PrintWriter getWriter() {
+return writer;
+}
+public void addFriend(String friendUsername)
+{
+System.out.println("I am adding friend: " +friendUsername);
+friendList[friendCount]=friendUsername;
+friendCount++;
+}
+public String[] getFriendList()
+{
 
+return friendList;
 }
 
 
+}
