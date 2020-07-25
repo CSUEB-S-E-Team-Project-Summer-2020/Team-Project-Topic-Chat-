@@ -5,14 +5,21 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+
 
 /**
  * A simple Swing-based client for the chat server. Graphically it is a frame
@@ -29,12 +36,13 @@ import javax.swing.JTextField;
  * following this string should be displayed in its message area.
  */
 public class ChatClient extends User  {
-private String username="";
-private String password="";
+private static String username="";
+private static String password="";
+private static boolean loggedin;
 private String sAnswer="";
     String serverAddress;
-    Scanner in;
-    PrintWriter out;
+    static Scanner in;
+    static PrintWriter out;
 
 
     /**
@@ -43,16 +51,17 @@ private String sAnswer="";
      * contents to the server. Note however that the textfield is initially NOT
      * editable, and only becomes editable AFTER the client receives the
      * NAMEACCEPTED message from the server.
+     * @throws IOException 
+     * @throws UnknownHostException 
      */
-    public ChatClient(String serverAddress) {
+    public ChatClient(String serverAddress) throws UnknownHostException, IOException {
         this.serverAddress = serverAddress;
-        
+        var socket = new Socket("localhost", 59001);
+        in = new Scanner(socket.getInputStream());
+        out = new PrintWriter(socket.getOutputStream(), true);
       
     }
-    public ChatClient() {
-    	
-    }
-
+ 
     private String getName() {
         return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection",
                 JOptionPane.PLAIN_MESSAGE);
@@ -62,17 +71,57 @@ private String sAnswer="";
 
     private void run() throws IOException {
   
-            var socket = new Socket("localhost", 59001);
-            in = new Scanner(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream(), true);
+          
 
            
+            final JFrame frame= new JFrame("Login Window");
+            final JButton Login=new JButton("Login");
+            final JButton Signup= new JButton("SignUp");
             
             
+            Login.addActionListener(
+            		 new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							 LoginOnly log = new LoginOnly(frame);
+		                        
+		                        log.setVisible(true);
+		                       
+		                        // if logon successfully
+		                        if(log.issucceess()){
+		                           System.out.println("your loged IN yee");
+		                        }
+						}
+            			
+            		});
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(300,100);
+            frame.setLayout(new FlowLayout());
+            frame.getContentPane().add(Login);
+            frame.getContentPane().add(Signup);
+            frame.setVisible(true);
+            String name;
+            String pass;
+            
+            	
+            
+            var line = in.nextLine();
+            System.out.println(username+password);
+             out.println("login"+username+" "+password );
+            if(line.startsWith("NAMEACCEPTED")) {
+         	   loggedin=true;
+         	   
+            }
+            else
+            {
+         	   loggedin=false;
+            }
+            out.println("login: "+username+" "+password );
+           
           
      
            
-               var line = in.nextLine();
+              /* var line = in.nextLine();
                
                User newLog= new User();
                newLog.Loginbox();
@@ -88,7 +137,7 @@ private String sAnswer="";
                } else if (line.startsWith("MESSAGE")) {
                    messageArea.append(line.substring(8) + "\n");
                }
-           
+           */
 			//System.out.print(newLog.toString());
 			
            
@@ -109,17 +158,44 @@ public boolean login(String login,String password) {
      
         var client = new ChatClient("localhost");
         client.run();
+        
+        
+        
+        
     }
     
 
-	public static boolean Differ(String username2, String password2) {
+	public static  boolean Differ(String username2, String password2) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		username=username2;
+		password=password2;
+		System.out.println("In Client: "+username2+" "+password2);
+		   out.println("login"+username+" "+password );
+		   var line = in.nextLine();
+           if(line.startsWith("NAMEACCEPTED")) {
+        	   loggedin=true;
+        	   
+           }
+           else
+           {
+        	   loggedin=false;
+           }
+           out.println("login: "+username+" "+password );
+		
+		return loggedin;
 	}
     
 	public static boolean DifferSignup(String username3, String password3,String answer) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private static boolean check(boolean checking) {
+		
+		return checking;
+		
+		
 	}
     
     
