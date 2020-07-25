@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -13,65 +12,63 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.*;
+
 public class Logged_In extends JDialog {
-	
+
 
 	public JTextField usernameText;
 	private JPasswordField passText;
-	public JTextField answerText; 
-	
+	public JTextField answerText;
+
 	private JLabel UsName;
 	private JLabel PsPass;
-	private JLabel ansText; 
-	
+	private JLabel ansText;
+
 	private JButton Login;
 	private JButton SignUp;
-	
-	
+
+
 	private boolean check;
-	
-	
-	
+
+
+
 	public Logged_In(Frame parent,String check) {
-		
+
 		if(check.equals("login")) {
 			// login(parent, check);
-			 
+
 		}
 		else
 		{
 			singup(parent);
 		}
-	
-			
-		
-		
-	}
+
+}
 
 
 
 	private void singup(Frame parent) {
 		// TODO Auto-generated method stub
-		
+
 		JPanel p = new JPanel(new GridBagLayout());
 		GridBagConstraints ccsss = new GridBagConstraints();
-		
+
 		ccsss.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		UsName = new JLabel("Username: ");
 		ccsss.gridx=0;
 		ccsss.gridy=0;
 		ccsss.gridwidth=1;
-		
+
 		p.add(UsName, ccsss);
-		
+
 		usernameText= new JTextField(30);
 		ccsss.gridx=1;
 		ccsss.gridy=0;
 		ccsss.gridwidth=2;
 		p.add(usernameText,ccsss);
-		
-		
+
+
 		PsPass= new JLabel("password: ");
 		ccsss.gridx = 0;
 		ccsss.gridy = 1;
@@ -98,47 +95,44 @@ public class Logged_In extends JDialog {
 		p.add(answerText, ccsss);
 
 		Login = new JButton("login");
-		Login.addActionListener(new ActionListener() {		
+		Login.addActionListener(new ActionListener() {
 
-		public void actionPerformed(ActionEvent e)
-		{
-			/*
-			if(Login.authenicate(getUsName(), getPsPass()))
+			public void actionPerformed(ActionEvent e)
 			{
-				JOptionPane.showMessageDialog(Logged_In.this, "Hi" + getUsName() + 
+				/*
+				if(Login.authenicate(getUsName(), getPsPass()))
+				{
+					JOptionPane.showMessageDialog(Logged_In.this, "Hi" + getUsName() +
 						"! Welcome", + "Login", JOptionPane.INFORMATION_MESSAGE);
-				succeeded = true;
-				dispose();
-			} 
-			else
-			{
-				JOptionPane.showMessageDialog(Logged_In.this, "invalid username or password", 
-						"Login", JOptionPane.ERROR_MESSAGE);
-				usernameText.setText("");
-				passText.setText("");
-				succeeded = false;
+					succeeded = true;
+					dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(Logged_In.this, "invalid username or password",
+					"Login", JOptionPane.ERROR_MESSAGE);
+					usernameText.setText("");
+					passText.setText("");
+					succeeded = false;
+				}
+				 */
 			}
-			*/
-		}
 
-		private Object getUsName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+			private Object getUsName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-		private Object getPsPass() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+			private Object getPsPass() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-	});
-		
-		
-	}
-
-
-
-	
-
-
+		});
 }
+
+
+
+
+
+
