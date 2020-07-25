@@ -1,5 +1,3 @@
-package SomethingNew;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -39,7 +37,8 @@ public class ChatClient extends User  {
 private static String username="";
 private static String password="";
 private static boolean loggedin;
-private String sAnswer="";
+private static boolean signedUp; 
+private static String sAnswer="";
     String serverAddress;
     static Scanner in;
     static PrintWriter out;
@@ -62,11 +61,11 @@ private String sAnswer="";
       
     }
  
-    private String getName() {
+   /* private String getName() {
         return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection",
                 JOptionPane.PLAIN_MESSAGE);
     }
-
+*/
     
 
     private void run() throws IOException {
@@ -87,13 +86,32 @@ private String sAnswer="";
 		                        
 		                        log.setVisible(true);
 		                       
-		                        // if logon successfully
+		                        // if login successfully
 		                        if(log.issucceess()){
 		                           System.out.println("your loged IN yee");
 		                        }
 						}
             			
             		});
+            
+            Signup.addActionListener(
+           		 new ActionListener() 
+            		{
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							 SignUp signup = new SignUp(frame);
+		                        
+							 signup.setVisible(true);
+		                      
+		                        if(signup.isSucceeded()){
+		                           System.out.println("you have successfully signed up");
+		                        }
+						}
+            			
+            		});
+            
+            
+            
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(300,100);
             frame.setLayout(new FlowLayout());
@@ -117,34 +135,7 @@ private String sAnswer="";
          	   loggedin=false;
             }
             out.println("login: "+username+" "+password );
-           
-          
-     
-           
-              /* var line = in.nextLine();
                
-               User newLog= new User();
-               newLog.Loginbox();
-               login(username,password);
-               out.println(username+" "+password);
-               
-               if (line.startsWith("SUBMITNAME")) {
-                  
-               } else if (line.startsWith("NAMEACCEPTED")) {
-                  // this.frame.setTitle("Chatter - " + line.substring(13));
-                  // System.out.println("Start Chat box");
-                //   textField.setEditable(true);
-               } else if (line.startsWith("MESSAGE")) {
-                   messageArea.append(line.substring(8) + "\n");
-               }
-           */
-			//System.out.print(newLog.toString());
-			
-           
-            
- 
-            
-       
     
     }
 public boolean login(String login,String password) {
@@ -186,17 +177,43 @@ public boolean login(String login,String password) {
 		return loggedin;
 	}
     
-	public static boolean DifferSignup(String username3, String password3,String answer) {
+	public static boolean DifferSignup(String username3, String password3, String answer) 
+	{
 		// TODO Auto-generated method stub
-		return false;
+		username=username3;
+		password=password3;
+		sAnswer = answer; 
+		
+		System.out.println("In Client: " + username3 + " " + password3 + " " + answer);
+		   out.println("Signup"+ username + " " + password + " " + sAnswer);
+		   var line = in.nextLine();
+        if(line.startsWith("NAMEACCEPTED")) {
+        	signedUp = true;
+     	   
+        }
+       
+        out.println("login: "+username+" "+password );
+		
+		return signedUp ;
+		
 	}
 	
 	private static boolean check(boolean checking) {
 		
-		return checking;
-		
+		return checking;	
 		
 	}
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
