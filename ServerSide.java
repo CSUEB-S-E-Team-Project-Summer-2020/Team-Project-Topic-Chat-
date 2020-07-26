@@ -11,10 +11,12 @@ import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
 
+
+
 public class ServerSide {
 
     private static ArrayList<Account> accountHolders = new ArrayList<Account>();
-    private static Set<PrintWriter> writers = new HashSet<>();
+  //  private static Set<PrintWriter> writers = new HashSet<>();
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running...");
         var pool = Executors.newFixedThreadPool(500);
@@ -50,19 +52,14 @@ public class ServerSide {
                 this.out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("SUBMITTED");
                
-              /* Account accountObjAccount=new Account();
+               Account accountObjAccount=new Account();
                accountObjAccount.setUserName("me");
                accountObjAccount.setPassword("me");
-              
-               
                accountHolders.add(accountObjAccount);
-                Account tempaccountObj=new Account("you","you");
-            	
+               Account tempaccountObj=new Account("you","you");
+               accountHolders.add(tempaccountObj);
                 
-             //  int count=0;
-                accountHolders.add(tempaccountObj);
                 
-                */
                 // Keep requesting a name until we get a unique one.
                 while (true) {
                 	
@@ -116,10 +113,8 @@ public class ServerSide {
                     	if(verifiyer==true)
                     	{
                     		verifiyer=doLogin(username, password);
-                    		System.out.println("ia nmbreaking");
                     		if(verifiyer==true)
                     		{
-                    			//out.println("NAMEACCEPTED " + username);
                     			break;
                     			
                     		}
@@ -127,20 +122,12 @@ public class ServerSide {
                     	}	
                     }
                 }	
-                      System.out.println("I am out");
-                     
-           
-                // Now that a successful name has been chosen, add the socket's print writer
-                // to the set of all writers so this client can receive broadcast messages.
-                // But BEFORE THAT, let everyone else know that the new person has joined!
+                    
                 out.println("NAMEACCEPTED " + username);
-             
-                writers.add(out);
-
-                // Accept messages from this client and broadcast them.
                 while (true) {
                     String input = in.nextLine();
-                    if (input.toLowerCase().startsWith("/quit")) {
+                    if (input.toLowerCase().startsWith("logout")) {
+                    	dologout();
                         return;
                     }
                     if(input.startsWith("msg"))
@@ -173,22 +160,33 @@ public class ServerSide {
                 System.out.println(e);
             } finally {
                 if (out != null) {
-                    writers.remove(out);
+                	 for (Account client : accountHolders) {
+                		 if(client.getUserName().equals(username))
+                		 {
+                			 client.setStatusOffline();		
+                		 } 
+                     }
+                    
                 }
-            /*    if (username != null) {
-                    System.out.println(username + " is leaving");
-                    names.remove(name);
-                    for (PrintWriter writer : writers) {
-                        writer.println("MESSAGE " + name + " has left");
-                    }
-                }
-                */
+  
+               
                 try {
                     socket.close();
                 } catch (IOException e) {
                 }
             }
         }
+
+		private void dologout() {
+			
+			 for (Account client : accountHolders) {
+        		 if(client.getUserName().equals(username) && client.getPassword().equals(password))
+        		 {
+        			 
+        			 client.setStatusOffline();  			
+        		 } 
+             }
+		}
 
 		private boolean addFrindtoaccount(String fusername) {
 			
@@ -206,7 +204,7 @@ public class ServerSide {
 		}
 
 		private boolean createAccount(String username, String password, String sAnswer) {
-			System.out.println("I am ghwere asdbasjkdbnasjksdn");
+			
 			Account newAccount=new Account();
 			newAccount.setUserName(username);
 			newAccount.setPassword(password);
@@ -214,6 +212,7 @@ public class ServerSide {
 			newAccount.setWriter(out);
 			newAccount.setStatusOnline();
 			accountHolders.add(newAccount);
+			System.out.println("The new Account has been Created for the User: "+username);
 			return true;
 			
 		}
@@ -245,18 +244,18 @@ public class ServerSide {
     //THIS METHOD WILL DO LOGIN
     private boolean doLogin(String username, String password) {
 		 for (Account client:accountHolders) {
-			// System.out.println("i am ghere ");
-			 System.out.println(client.getPassword() +"and "+ client.getUserName());
-			// System.out.println();
+		
       			if((client.getPassword()).equals(password) && client.getUserName().equals(username))
       			{
       				client.setStatusOnline();
-      				System.out.println(client.getStatus());
+      				System.out.println(username+"is logedin with the Status"+client.getStatus());
+      				
       				return true;
       				
       			}
       		}
       		return false;
 	}
-    }
+  
+}
 }
