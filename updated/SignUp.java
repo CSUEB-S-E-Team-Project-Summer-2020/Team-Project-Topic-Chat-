@@ -108,6 +108,7 @@ public class SignUp extends JDialog{
                         "Invalid username or password",
                         "Login",
                         JOptionPane.ERROR_MESSAGE);
+                
                 // reset username and password
                 tfUsername.setText("");
                 pfPassword.setText("");

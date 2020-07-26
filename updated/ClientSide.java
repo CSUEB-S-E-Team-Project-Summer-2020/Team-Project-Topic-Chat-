@@ -8,14 +8,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import java.awt.BorderLayout;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -36,15 +32,18 @@ import javax.swing.JTextField;
  * following this string should be displayed in its message area.
  */
 public class ClientSide extends User  {
-private static String username="";
-private static String password="";
-private static boolean loggedin;
-private static boolean signedUp; 
-private static String sAnswer="";
+private static  String username="";
+private static  String password="";
+private static  String answer="";
+private static  boolean loggedin;
+private static  boolean messageclass;
+private String sAnswer="";
     String serverAddress;
     static Scanner in;
-    static PrintWriter out;
-
+     static PrintWriter out;
+    JFrame frameM = new JFrame("Chatter");
+    JTextField textField = new JTextField(50);
+    static JTextArea messageArea = new JTextArea(20, 50);
 
     /**
      * Constructs the client by laying out the GUI and registering a listener with
@@ -56,52 +55,32 @@ private static String sAnswer="";
      * @throws UnknownHostException 
      */
     public ClientSide(String serverAddress) throws UnknownHostException, IOException {
+    	
         this.serverAddress = serverAddress;
         var socket = new Socket("localhost", 59001);
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
+        final JFrame frame= new JFrame("Login Window");
+        final JButton Login=new JButton("Login");
+        final JButton Signup= new JButton("SignUp");
         
         
         
-      
-    }
- 
-   /* private String getName() {
-        return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection",
-                JOptionPane.PLAIN_MESSAGE);
-    }
-*/
-    
-
-    private void run() throws IOException {
-  
-          
-
-           
-            final JFrame frame= new JFrame("Login Window");
-            final JButton Login=new JButton("Login");
-            final JButton Signup= new JButton("SignUp");
-            
-            
-            Login.addActionListener(
-            		 new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
-							 LoginOnly log = new LoginOnly(frame);
-		                        
-		                        log.setVisible(true);
-		                        log.setSuccess(signedUp);
-		                        // if login successfully
-		                        if(log.issucceess()){
-		                           System.out.println("your loged IN yee");
-		                        }
-						}
-            			
-            		});
-            
-            Signup.addActionListener(
-           		 new ActionListener() 
-            		{
+        Login.addActionListener(
+        		 new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					
+						 LoginOnly log = new LoginOnly(frame);
+	                        
+	                        log.setVisible(true);
+	                   
+					}
+        			
+        		});
+        
+        Signup.addActionListener(
+         		 new ActionListener() 
+          		{
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
 							 SignUp signup = new SignUp(frame);
@@ -112,119 +91,186 @@ private static String sAnswer="";
 		                           System.out.println("you have successfully signed up");
 		                        }
 						}
-            			
-            		});
-            
-            
-            
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300,100);
-            frame.setLayout(new FlowLayout());
-            frame.getContentPane().add(Login);
-            frame.getContentPane().add(Signup);
-            frame.setVisible(true);
-            String name;
-            String pass;
-            
+          			
+          		});
+        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300,100);
+        frame.setLayout(new FlowLayout());
+        frame.getContentPane().add(Login);
+        frame.getContentPane().add(Signup);
+        frame.setVisible(true);
+      
+       
+        
+        
+        textField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+           
             	
-            
-            var line = in.nextLine();
-            System.out.println(username+password);
-             out.println("login"+username+" "+password );
-            if(line.startsWith("NAMEACCEPTED")) {
-         	   loggedin=true;
-         	   
+            	
+                out.println("msg "+textField.getText());
+                textField.setText("");
             }
-            else
-            {
-         	   loggedin=false;
-            }
-            out.println("login: "+username+" "+password );
-               
+        });
+        
+        
+        
+        
+        
+    }
     
+    
+ 
+    private String getName() {
+        return JOptionPane.showInputDialog(frameM, "Choose a screen name:", "Screen name selection",
+                JOptionPane.PLAIN_MESSAGE);
     }
-public boolean login(String login,String password) {
-	
-	
-	System.out.println("In Client: "+login+" "+password);
-	
-	return false;
-}
-    public static void main(String[] args) throws Exception {
-     
-        var client = new ClientSide("localhost");
-        client.run();
-        
-        
-        
-        
-    }
+
     
 
-	public static  boolean Differ(String username2, String password2) {
-		// TODO Auto-generated method stub
+    private void run() throws IOException {
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	}
+       
+            
+            	
+ 
+          
+     
+           
+              /* var line = in.nextLine();
+               
+               User newLog= new User();
+               newLog.Loginbox();
+               login(username,password);
+               out.println(username+" "+password);
+               
+               if (line.startsWith("SUBMITNAME")) {
+                  
+               } else if (line.startsWith("NAMEACCEPTED")) {
+                  // this.frame.setTitle("Chatter - " + line.substring(13));
+                  // System.out.println("Start Chat box");
+                //   textField.setEditable(true);
+               } else if (line.startsWith("MESSAGE")) {
+                   messageArea.append(line.substring(8) + "\n");
+               }
+           */
+			//System.out.print(newLog.toString());
+			
+           
+            
+ 
+            
+       
+    
+//main
+  
+    
+
+	public   boolean Differ(String username2, String password2) {
+		//login already have account
 		
 		username=username2;
 		password=password2;
-		System.out.println("In Client: "+username2+" "+password2);
-		   out.println("login"+username+" "+password );
+		System.out.println("In Client: "+username+" "+password);
+		   out.println("login "+username+" "+password+"/n" );
 		   var line = in.nextLine();
-           if(line.startsWith("NAMEACCEPTED")) {
-        	   loggedin=true;
-        	   
-        	   JFrame frame2 = new JFrame("Chatter");
-        	    JTextField textField2 = new JTextField(50);
-        	    JTextArea messageArea2 = new JTextArea(16, 50);
-        	   
-        	    textField2.setEditable(true);
-                messageArea2.setEditable(true);
-                frame2.getContentPane().add(textField2, BorderLayout.SOUTH);
-                frame2.getContentPane().add(new JScrollPane(messageArea2), BorderLayout.CENTER);
-                frame2.pack();
-                
-                textField2.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        out.println(textField2.getText());
-                        textField2.setText("");
-                    }
-                });
-                
-                
-            } else
-           {
-        	   loggedin=false;
-           }
-           out.println("login: "+username+" "+password );
-		
+  if(line.startsWith("NAMEACCEPTED"))
+     {
+  	
+  	   loggedin=true;
+  	 if(loggedin==true) {
+ 		this.frameM.setTitle("ChatBox"+username);
+			textField.setEditable(true);
+
+  	 }
+     }else if(line.startsWith("MESSAGE")) {
+    	 
+    	 while(true) {
+  			
+  			var line2 = in.nextLine();
+  			if(line2.startsWith("MESSAGE")) {
+  				 messageArea.append(line2.substring(8) + "\n");
+  			}
+    	 }
+    	 
+     }else if(line.startsWith("WRONGPASSWORD"))
+  {
+  	System.out.println("Wrong password please try again");
+  	 loggedin=false;
+	   messageclass=false;
+  
+}		
 		return loggedin;
 	}
     
-	public static boolean DifferSignup(String username3, String password3, String answer) 
-	{
-		// TODO Auto-generated method stub
+	public static  boolean DifferSignup(String username3, String password3,String answer3) {
+		//new account
 		username=username3;
 		password=password3;
-		sAnswer = answer; 
+		answer=answer3;
+		System.out.println("In Client: "+username3+" "+answer3);
 		
-		System.out.println("In Client: " + username3 + " " + password3 + " " + answer);
-		   out.println("newA "+username+" "+password+" "+sAnswer+"\n");
+		   out.println("newA "+username+" "+password+" "+answer+"/n");
 		   var line = in.nextLine();
-        if(line.startsWith("NAMEACCEPTED")) {
-        	signedUp = true;
-     	   System.out.println("Run The Message Window");
+		   
+        if(line.startsWith("NAMEACCEPTED"))
+           {
+        	
+        	System.out.println("New Account made Logged In"+username);
+        	   loggedin=true;
+        	 
+        	
+        	  
+        	  
+           }
+        else if(line.startsWith("MESSAGE")) {
+       	 
+       	 while(true) {
+     			
+     			var line2 = in.nextLine();
+     			if(line2.startsWith("MESSAGE")) {
+     				 messageArea.append(line2.substring(8) + "\n");
+     			}
+       	 }
         }
-       
-       // out.println("login: "+username+" "+password );
+        else
+        {
+        	System.out.println("Account already in system please login useing login window");
+        	 loggedin=false;
+      	   messageclass=false;
+        }
+           
+         System.out.println("Line check: "+line);
 		
-		return signedUp ;
+		return loggedin;
 		
 	}
+
+
+
+	  public static void main(String[] args) throws Exception {
+		     
+	        var client = new ClientSide("localhost");
+	        
+	        
+	        client.frameM.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        client.frameM.setVisible(true);
+	       
+	       // client.run();
+	        
+	        
+	        
+	    }
 	
-	private static boolean check(boolean checking) {
-		
-		return checking;	
-		
-	}
+	
     
     
 }
