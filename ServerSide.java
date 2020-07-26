@@ -1,3 +1,4 @@
+package SomethingNew;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -47,7 +48,7 @@ public class ServerSide {
                 this.in = new Scanner(socket.getInputStream());
                 
                 this.out = new PrintWriter(socket.getOutputStream(), true);
-                out.println("SUBMITTED");
+                //out.println("SUBMITTED");
                
               /* Account accountObjAccount=new Account();
                accountObjAccount.setUserName("me");
@@ -132,7 +133,7 @@ public class ServerSide {
                 // Now that a successful name has been chosen, add the socket's print writer
                 // to the set of all writers so this client can receive broadcast messages.
                 // But BEFORE THAT, let everyone else know that the new person has joined!
-                out.println("NAMEACCEPTED " + username);
+                out.println("NAMEACCEPTED");
                 for (PrintWriter writer : writers) {
                 	
                     writer.println("MESSAGE " + username + " has joined");

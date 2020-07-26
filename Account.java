@@ -1,3 +1,6 @@
+package SomethingNew;
+
+
 import java.io.PrintWriter;
 
 public class Account
