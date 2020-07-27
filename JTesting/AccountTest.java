@@ -1,45 +1,91 @@
+package testing;
+import chat.*;
+
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
 
-class AccountTest {
+public class AccountTest {
 
 	@Test
 	void test() {
-		//fail("Not yet implemented"); // TODO
+	//	fail("Not yet implemented");
 	}
 	
 	@Test
-	void testEmail()
+	public void testAccount()
 	{
-		//This should test if the email is an active email.
+		Account testing = new Account();
+		String name = "CS401";
+		String password = "hat372";
+		testing.setUserName(name);
+		testing.setPassword(password);
+		assertEquals("CS401", testing.getUserName());
+		assertEquals("hat372", testing.getPassword());
 	}
 	
 	@Test
-	void testPassword()
+	public void testUsername()
 	{
-		//The length of the password should be 8 characters with a number 
-		//and a special character.
-	}
-	
-	@Test 
-	void testUsername()
-	{
-		//This should check if the username already exists or not.
+		Account testing = new Account();
+		String name = "Amna";
+		testing.setUserName(name); //assuming we already have the username
+		assertEquals("Amna", testing.getUserName());
+		assertSame("Amna", "Amna");
 	}
 	
 	@Test
-	void testResetPassword()
+	public void testPassword()
 	{
-		//The reset password function will send an email to the user if they need 
-		//to reset their passsword.
-		//This will test if the new password meets the requirements or not
+		Account testing = new Account();
+		String password = "hello1234";
+		testing.setPassword(password);
+		assertEquals("hello1234", testing.getPassword());
+		assertSame("hello1234", "hello1234");
 	}
 	
 	@Test
-	void testVerifyEmail()
+	public void testSecurityAnswer()
 	{
-		//This test will make sure the user verifies the email address. 
+		Account testing = new Account();
+		String answer = "Pleasanton";
+		testing.setSecurityAnswer(answer); //assuming the question asking for your hometown...
+		assertEquals("Pleasanton", testing.getSecurityAnswer());
+		assertSame("Pleasanton", "Pleasanton");
+	}
+	
+	@Test
+	public void testSetStatusOnline()
+	{
+		Account testing = new Account();
+		testing.setStatusOnline();		
+		assertTrue(true, testing.getStatus());
+	}
+
+	@Test
+	public void testSetStatusOffline()
+	{
+		Account testing = new Account();
+		testing.setStatusOffline();		
+		assertTrue(true, testing.getStatus());
+	}
+	
+	@Test
+	public void testSetStatusBlocked()
+	{
+		Account testing = new Account();
+		testing.setStatusBlocked();		
+		assertTrue(true, testing.getStatus());
+	}
+	
+	@Test
+	public void testSetAddFriend()
+	{
+		Account testing = new Account();
+		String friendname = "person";
+		testing.addFriend(friendname); //people can add friends by entering their username 
+		assertSame("person", "person");
 	}
 
 }
